@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "a97e1e4c-a172-4162-be66-619a1ed0a38e": {
+      "ProjectGuid": "a97e1e4c-a172-4162-be66-619a1ed0a38e",
+      "DisplayName": "CommandService",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
