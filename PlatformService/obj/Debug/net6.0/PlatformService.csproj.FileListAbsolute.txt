@@ -61,3 +61,4 @@ D:\MyNewRepo\microservices\PlatformService\obj\Debug\net6.0\PlatformService.dll
 D:\MyNewRepo\microservices\PlatformService\obj\Debug\net6.0\ref\PlatformService.dll
 D:\MyNewRepo\microservices\PlatformService\obj\Debug\net6.0\PlatformService.pdb
 D:\MyNewRepo\microservices\PlatformService\obj\Debug\net6.0\PlatformService.genruntimeconfig.cache
+D:\MyNewRepo\microservices\PlatformService\obj\Debug\net6.0\PlatformService.csproj.AssemblyReference.cache

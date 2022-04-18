@@ -7,7 +7,7 @@ namespace PlatformService.SyncDataServices.Http
     public class HttpCommandDataClient : ICommandDataClient
     {
         private readonly HttpClient _httpClient;
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
 
         public HttpCommandDataClient(HttpClient httpClient, IConfiguration configuration)
         {
@@ -19,7 +19,7 @@ namespace PlatformService.SyncDataServices.Http
             var httpContent = new StringContent(
                 JsonSerializer.Serialize(profile),
                 Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("http://localhost:5037/api/c/profiles", httpContent);
+            var response = await _httpClient.PostAsync($"{_configuration["CommandService"]}", httpContent);
             
             
             if (response.IsSuccessStatusCode)

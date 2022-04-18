@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PlatformService.Data;
 using PlatformService.Dtos;
+using PlatformService.SyncDataServices.Http;
 
 namespace PlatformService.Controllers
 {
@@ -12,11 +13,16 @@ namespace PlatformService.Controllers
     {
         private readonly IProfileRepo _repository;
         private readonly IMapper _mapper;
+        private readonly ICommandDataClient _commandDataClient;
 
-        public ProfilesController(IProfileRepo repository, AutoMapper.IMapper mapper)
+        public ProfilesController(
+            IProfileRepo repository, 
+            AutoMapper.IMapper mapper, 
+            ICommandDataClient commandDataClient)
         {
             _repository = repository;
             _mapper = mapper;
+            _commandDataClient = commandDataClient;
         }
         [HttpGet]
         public ActionResult<IEnumerable<ProfileReadDtos>> GetProfiles()
@@ -38,7 +44,7 @@ namespace PlatformService.Controllers
             return Ok(_mapper.Map<ProfileReadDtos>(profileItem));
         }
         [HttpPost]
-        public ActionResult<ProfileReadDtos> CreateProfile([FromBody] ProfileCreateDtos profileCreateDtos)
+        public async Task <ActionResult<ProfileReadDtos>> CreateProfile([FromBody] ProfileCreateDtos profileCreateDtos)
         {
             Console.WriteLine("---> Create Profile");
             Models.Profile profileModel = _mapper.Map<Models.Profile>(profileCreateDtos);
@@ -48,6 +54,16 @@ namespace PlatformService.Controllers
             if (profileModel.Name == null)
             {              
                 return BadRequest("Not a good profile data");
+            }
+            try
+            {
+                await _commandDataClient.SendProfileToCommand(profileDtoCreated);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Could not send sychronously data between microservers");
+                Console.Error.WriteLine(ex.Message);
+                
             }
             return Ok(profileDtoCreated); 
         }   
